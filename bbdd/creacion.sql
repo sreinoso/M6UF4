@@ -10,7 +10,7 @@ create table PREGUNTA (
     resposta4 varchar(50),
     respostacorrecta varchar(50),
     primary key(id)
-) 
+); 
  
 create table JUGADOR (
     id int auto_increment,
@@ -19,4 +19,4 @@ create table JUGADOR (
     experiencia_total int,
     partides_jugades int,
     primary key(id)
-) 
+) ;
