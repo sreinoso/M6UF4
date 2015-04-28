@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 if(@$_SESSION['logged']!=true){
 ?>
 <!doctype html>
@@ -21,7 +21,7 @@ if(@$_SESSION['logged']!=true){
 	text-decoration:none;
   }
   </style>
-  <script type="text/javascript" src="./js/PracticaUf3.js"></script>
+  <script type="text/javascript" src="./js/PracticaUf4.js"></script>
 </head>
 <body>
 <div id="Welcome"></div>
@@ -33,7 +33,8 @@ if(@$_SESSION['logged']!=true){
 			<input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all">
 			<label for="pass">Password</label>
 			<input type="password" name="pass" id="pass" class="text ui-widget-content ui-corner-all">
-			<input type="button" id="entrar" value="entrar"/>   <input type="button" id="cancelar" value="cancelar"/> 
+            <input type="button" id="entrar" value="entrar"/>  
+            <input type="button" id="cancelar" value="cancelar"/> 
 		</fieldset>
 	</form>
 	<a href="#" id="linkreg">No soc usuari. Vull registrar-me</a>
@@ -50,9 +51,13 @@ if(@$_SESSION['logged']!=true){
 			<label for="datanaix" id="redData">Data de naixement</label>
 			<input type="text" name="datanaix" id="myDate" class="text ui-widget-content ui-corner-all">
 			<input type="checkbox" id="check" name="condicions"><a id="condicions" href="#" >He llegit i accepto les condicions</a>
-			<input type="button" id="registre" value="Registrar-me"/>   <input type="button" id="cancelReg" value="cancelar"/> 
+            <input type="button" id="registre" value="Registrar-me"/>   
+            <input type="button" id="cancelReg" value="cancelar"/> 
 		</fieldset>
 	</form>
+</div>
+<div id="myDiv">
+
 </div>
 
  

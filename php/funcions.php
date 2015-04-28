@@ -1,4 +1,5 @@
 <?php
+require_once('./config.php');
 
 /*Función que conecta a la base de datos */
 function conectar_bdd(){
@@ -18,7 +19,11 @@ function loguejar($user,$pass){
     $filas = mysql_num_rows($retval);
     if ($filas == 1){
         $_SESSION['logged']=true;
-    } 
+        return true;
+    }else{ 
+        $_SESSION['logged']=false;
+        return false;
+    }
 }
 
 
