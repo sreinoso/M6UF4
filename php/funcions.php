@@ -11,7 +11,7 @@ function conectar_bdd(){
 
 /*Función que se loguea en caso que su username y contraseña coincidan con los de la base de datos*/
 function loguejar($user,$pass){
-    session_start();
+    @session_start();
     $con = conectar_bdd();
     $aux = false;
     $loguejar = "SELECT * FROM JUGADOR WHERE nickname = '$user' AND pwd = PASSWORD('$pass')";

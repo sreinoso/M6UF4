@@ -66,15 +66,9 @@ if(@$_SESSION['logged']!=true){
 <?php
 }else{
 ?>
-
-
-
-
-
-
-
-
-
+<div id="myDiv">
+</div>
 <?php
+    header("location: juego.php");
 }
 ?>

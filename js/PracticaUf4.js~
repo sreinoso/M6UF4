@@ -145,23 +145,16 @@ function datos_post(tipo) {
 
 var conexion;
 
-document.ready=function(){
-    document.getElementById("entrar").addEventListener("click",valida);
-    document.getElementById("jugar").addEventListener("click",startGame);
-};
-
-function startGame () {
-   alert(this.id); 
-}
- 
+document.ready=function(){document.getElementById("entrar").addEventListener("click",valida);};
 function enviar(tipo){
     if (window.XMLHttpRequest){
         conexion=new XMLHttpRequest();
-    } else {
+    }
+    else {
         conexion= new ActiveXObject("Microsoft.XMLHttp");
     }
     var datos=datos_post(tipo);
-    //alert(datos);
+    alert(datos);
     conexion.open("POST", "/brain/php/conector.php",true);							// <form method=POST action=conector.php
     conexion.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
     conexion.send(datos);													//submit
@@ -169,21 +162,9 @@ function enviar(tipo){
 
     conexion.onreadystatechange=function(){ 
         if (conexion.readyState==4 && conexion.status==200) { 
-            //console.log(conexion.responseText);
-            var aux=JSON.parse(conexion.responseText); 
-            tipo = aux.tipo;
-            resul = aux.datos;
-            action(tipo,resul);
+            document.getElementById("myDiv").innerHTML=conexion.responseText; 
         } 
     };
 
 }
-
-function action (tipo,datos) {
-
-    switch(tipo){
-        case 'login':
-            location.reload();
-            break;
-    }
-}
+  

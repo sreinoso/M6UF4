@@ -11,20 +11,17 @@ $(function() {
 		maxHeight: 300      
 	});
 
-	function valida(){						//Funcio per validar un usuari i contrasenya en el "dialog" - Login
-		//if ((document.getElementById('user') == "")&&(document.getElementById('pass') =="")){					// Si l'usuari i pass no hi ha escrit res, fa un efecte d'esquerra a dreta
-			 //$("#dialog").effect('shake');
-		//} else {		
-            
-			//if (user === pass){							//Si l'usuari es igual a la pass, es tanca el "dialog" i mostra un missatge de benvinguda
-            enviar("login");
-            //alert("aaa");
-			//	$( "#dialog" ).dialog( "close" );
-			//	$("#Welcome").open = $("#Welcome").html("Benvingut/da "+ user);
-			//} else if (user !== pass){					//Si l'usuari i la pass es diferent, fa un efecte d'esquerra a dreta
-			//	 $("#dialog").effect('shake');
-			//}
-		//}
+	function valida (user,pass){						//Funcio per validar un usuari i contrasenya en el "dialog" - Login
+		if ((user == "")&&(pass =="")){					// Si l'usuari i pass no hi ha escrit res, fa un efecte d'esquerra a dreta
+			 $("#dialog").effect('shake');
+		} else {		
+			if (user === pass){							//Si l'usuari es igual a la pass, es tanca el "dialog" i mostra un missatge de benvinguda
+				$( "#dialog" ).dialog( "close" );
+				$("#Welcome").open = $("#Welcome").html("Benvingut/da "+ user);
+			} else if (user !== pass){					//Si l'usuari i la pass es diferent, fa un efecte d'esquerra a dreta
+				 $("#dialog").effect('shake');
+			}
+		}
 	}		
  
 	$( "#butoLogin" ).click(function() {				//Quan cliquis en el boto de login s'obre el "dialog" - Login	
@@ -127,63 +124,3 @@ $(function() {
 		validaReg(useReg.value,passReg.value,mail.value,myDate.value);
 	});	
 });
-
-
-//##################################################
-//AJAX
-//##################################################
- 
-function datos_post(tipo) {
-    if(tipo === "login"){
-//alert(tipo);
-        var usuario= document.getElementById("user");
-        var password= document.getElementById("pass");
-        //alert("tipo=" + tipo + "&usr=" + usuario.value + "&pass=" + password.value);
-        return "tipo=" + tipo + "&usr=" + usuario.value + "&pass=" + password.value;
-    }
-}
-
-var conexion;
-
-document.ready=function(){
-    document.getElementById("entrar").addEventListener("click",valida);
-    document.getElementById("jugar").addEventListener("click",startGame);
-};
-
-function startGame () {
-   alert(this.id); 
-}
- 
-function enviar(tipo){
-    if (window.XMLHttpRequest){
-        conexion=new XMLHttpRequest();
-    } else {
-        conexion= new ActiveXObject("Microsoft.XMLHttp");
-    }
-    var datos=datos_post(tipo);
-    //alert(datos);
-    conexion.open("POST", "/brain/php/conector.php",true);							// <form method=POST action=conector.php
-    conexion.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    conexion.send(datos);													//submit
-
-
-    conexion.onreadystatechange=function(){ 
-        if (conexion.readyState==4 && conexion.status==200) { 
-            //console.log(conexion.responseText);
-            var aux=JSON.parse(conexion.responseText); 
-            tipo = aux.tipo;
-            resul = aux.datos;
-            action(tipo,resul);
-        } 
-    };
-
-}
-
-function action (tipo,datos) {
-
-    switch(tipo){
-        case 'login':
-            location.reload();
-            break;
-    }
-}
