@@ -1,6 +1,7 @@
 document.ready=function(){
-    var preguntas = getCantPreguntas(10);
-    var preguntasCargadas = 0;
+    getCantPreguntas();
+    var cantPreguntas;
+
     document.getElementById("logout").addEventListener("click",logout);
     document.getElementById("jugar").addEventListener("click",startGame);
     

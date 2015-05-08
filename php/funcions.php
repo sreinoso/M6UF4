@@ -13,9 +13,15 @@ function conectar_bdd(){
 function getCantPreg(){
     $con = conectar_bdd();
     $aux = false;
-    $loguejar = "SELECT count(*) FROM PREGUNTA";
-    $retval = mysql_query($loguejar,$con);
+    $query = "SELECT count(*) FROM PREGUNTA";
+    $retval = mysql_query($query,$con);
     $filas = mysql_num_rows($retval);
+    return mysql_fetch_row($retval);
+}
+function getPregunta($id){
+    $con = conectar_bdd();
+    $query = 'SELECT id,enunciat,resposta1,resposta2,resposta3,resposta4 FROM PREGUNTA where id='.$id;
+    $retval = mysql_query($query,$con);
     return mysql_fetch_row($retval);
 }
 
