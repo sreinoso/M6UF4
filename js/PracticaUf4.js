@@ -11,21 +11,6 @@ $(function() {
 		maxHeight: 300      
 	});
 
-	function valida(){						//Funcio per validar un usuari i contrasenya en el "dialog" - Login
-		//if ((document.getElementById('user') == "")&&(document.getElementById('pass') =="")){					// Si l'usuari i pass no hi ha escrit res, fa un efecte d'esquerra a dreta
-			 //$("#dialog").effect('shake');
-		//} else {		
-            
-			//if (user === pass){							//Si l'usuari es igual a la pass, es tanca el "dialog" i mostra un missatge de benvinguda
-            enviar("login");
-            //alert("aaa");
-			//	$( "#dialog" ).dialog( "close" );
-			//	$("#Welcome").open = $("#Welcome").html("Benvingut/da "+ user);
-			//} else if (user !== pass){					//Si l'usuari i la pass es diferent, fa un efecte d'esquerra a dreta
-			//	 $("#dialog").effect('shake');
-			//}
-		//}
-	}		
  
 	$( "#butoLogin" ).click(function() {				//Quan cliquis en el boto de login s'obre el "dialog" - Login	
 		$( "#dialog" ).dialog( "open" );
@@ -33,9 +18,9 @@ $(function() {
 	$( "#cancelar" ).click(function() {					//Quan cliquis en el boto "cancelar" es tancará el "dialog" - Login
 		$( "#dialog" ).dialog( "close" );
 	});  
-	$( "#entrar" ).click(function() {					//Quan cliquis en el boto "entrar" validará o no al usuari i password
-	 valida (user.value,pass.value);					//Funcio "valida"
-	}); 
+	//$( "#entrar" ).click(function() {					//Quan cliquis en el boto "entrar" validará o no al usuari i password
+	// valida (user.value,pass.value);					//Funcio "valida"
+	//}); 
 
 /*************************************************REGISTRE*******************************************************************/
 	$( "#dialogReg" ).dialog({
@@ -134,27 +119,32 @@ $(function() {
 //##################################################
  
 function datos_post(tipo) {
-    if(tipo === "login"){
-//alert(tipo);
-        var usuario= document.getElementById("user");
-        var password= document.getElementById("pass");
-        //alert("tipo=" + tipo + "&usr=" + usuario.value + "&pass=" + password.value);
-        return "tipo=" + tipo + "&usr=" + usuario.value + "&pass=" + password.value;
+    switch(tipo){
+        case "login":
+            //alert(tipo);
+            var usuario= document.getElementById("user");
+            var password= document.getElementById("pass");
+            //alert("tipo=" + tipo + "&usr=" + usuario.value + "&pass=" + password.value);
+            return "tipo=" + tipo + "&usr=" + usuario.value + "&pass=" + password.value;
+        case "logout":
+        case "totPregServ":
+        case "getPreg":
+            return "tipo=" + tipo;
+        default:
+            return "";
+            
     }
+
 }
 
-var conexion;
 
-document.ready=function(){
-    document.getElementById("entrar").addEventListener("click",valida);
-    document.getElementById("jugar").addEventListener("click",startGame);
-};
 
 function startGame () {
-   alert(this.id); 
+    alert(this.id); 
 }
- 
+
 function enviar(tipo){
+    var conexion;
     if (window.XMLHttpRequest){
         conexion=new XMLHttpRequest();
     } else {
@@ -180,10 +170,93 @@ function enviar(tipo){
 }
 
 function action (tipo,datos) {
-
+    //LA ACCIÓN SE REPITE VARIAS VECES, COMPROBAR PORQUE!
+    /*TODO*/
+    //alert(tipo);
     switch(tipo){
         case 'login':
-            location.reload();
+            var usuario= document.getElementById("user");
+            //alert (usuario);
+            if(datos){
+                document.getElementById('msg').innerHTML = "Benvingut/da "+usuario.value;
+                window.setTimeout(function(){
+                    setCookie("usuario",usuario.value,1);
+                    location.reload();
+                }
+                , 1000);
+            }else{
+                $("#dialog").effect('shake');
+            }
             break;
+        case 'logout':
+            document.getElementById('msg').innerHTML = "ADEU!";
+            window.setTimeout(function(){
+                location.reload();
+            }
+            , 1000);
+            break;
+        case 'totPregServ':
+            cantPreguntas = datos.num1[0]; 
+            break;
+        case 'getPreg':
+            generaPregunta(datos);
+            break;
+            
+            
+
     }
+}
+function valida(){						//Funcio per validar un usuari i contrasenya en el "dialog" - Login
+    enviar("login");
+}		
+
+function logout(){
+    // alert("logout");
+    enviar("logout");
+}
+
+function registre () {
+    var container = document.getElementById(this.parent);
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+ 
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
+function getExpTot(usuario) {
+    
+}
+
+function generaPregunta(datos){ 
+    var html;
+
+    //de datos a id, enunciado, rx....
+    enviar(getPreg);
+    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"o</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>"
+    preguntas[preguntasCargadas] = html;
+    preguntasCargadas++;
+}
+
+function getCantPreguntas(cant){
+    var totPregServ = enviar("totPregServ");
+}
+function getPreguntas(){
+    var cantPreguntas = getPreguntas(10);
+    for (var i = 0; i < cantPreguntas; i++) {
+        preguntas[i] = envia("getPreg");
+    };
 }

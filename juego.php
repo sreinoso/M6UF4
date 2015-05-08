@@ -10,7 +10,7 @@ if(@$_SESSION['logged']!=true){
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Login</title>
+  <title>Juego</title>
 <link href="./js/recursos/jquery-ui.css" rel="stylesheet">
 <script src="./js/recursos/external/jquery/jquery.js"></script>
 <script src="./js/recursos/jquery-ui.min.js"></script>
@@ -26,10 +26,14 @@ if(@$_SESSION['logged']!=true){
   }
   </style>
   <script type="text/javascript" src="./js/PracticaUf4.js"></script>
+  <script type="text/javascript" src="./js/juego.js"></script>
 </head>
 <body>
 
+<div id="msg"></div>
 <input type="button" id="jugar" name="jugar" value="JUGAR"/>
+<input type="button" id="logout" name="logout" value="LOGOUT"/>
+
  
 
  

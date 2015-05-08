@@ -8,16 +8,15 @@ if(isset($_POST['tipo'])){
     $retorno = array("tipo"=> $_POST['tipo'],"datos"=>"true");
     $tipo = $_POST['tipo'];
     switch($tipo){
-    case 'login':
-        $logged = loguejar($_POST['usr'],$_POST['pass']);
-        //if($logged==true){
-        //    //                $fp = fopen('data.txt', 'a');
-        //    //                fwrite($fp, "LOGEADO"."\n");
-        //    //header('location: /brain/login.php'); 
-        //}else{
-        //$retorno["datos"]=true;
-        //}
-        break;
+        case 'login':
+            $retorno["datos"] = loguejar($_POST['usr'],$_POST['pass']);
+            break;
+        case 'logout':
+            logout();
+            break;
+        case 'totPregServ':
+            $retorno["datos"] = array("num1"=>getCantPreg(),"num2"=>20,"num3"=>30);
+            break;
     }
     //echo ($retorno);
     echo json_encode($retorno);

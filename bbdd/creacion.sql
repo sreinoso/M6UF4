@@ -16,8 +16,8 @@ create table JUGADOR (
     id int auto_increment,
     nickname varchar(200),
     pwd varchar(200),
-    experiencia_total int,
-    partides_jugades int,
+    experiencia_total int DEFAULT 0,
+    partides_jugades int DEFAULT 0,
     primary key(id)
 ) ;
 

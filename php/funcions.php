@@ -8,6 +8,16 @@ function conectar_bdd(){
     mysql_select_db($dbName,$conexion) or die ('Error al conect bdd'); 
     return $conexion; 
 }
+ 
+ 
+function getCantPreg(){
+    $con = conectar_bdd();
+    $aux = false;
+    $loguejar = "SELECT count(*) FROM PREGUNTA";
+    $retval = mysql_query($loguejar,$con);
+    $filas = mysql_num_rows($retval);
+    return mysql_fetch_row($retval);
+}
 
 /*Función que se loguea en caso que su username y contraseña coincidan con los de la base de datos*/
 function loguejar($user,$pass){
@@ -24,6 +34,9 @@ function loguejar($user,$pass){
         $_SESSION['logged']=false;
         return false;
     }
+}
+function logout(){
+    $_SESSION['logged']=false;
 }
 
 
