@@ -33,6 +33,8 @@ if(@$_SESSION['logged']!=true){
 <div id="msg"></div>
 <input type="button" id="jugar" name="jugar" value="JUGAR"/>
 <input type="button" id="logout" name="logout" value="LOGOUT"/>
+<div id="aler">
+</div>
 
  
 

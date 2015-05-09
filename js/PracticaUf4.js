@@ -120,7 +120,7 @@ $(function() {
     var preguntas = [];
     var preguntasCargadas = 0;
  
-function datos_post(tipo) {
+function datos_post(tipo,data) {
     switch(tipo){
         case "login":
             //alert(tipo);
@@ -131,7 +131,7 @@ function datos_post(tipo) {
         case "logout":
         case "totPregServ":
         case "getPreg":
-            return "tipo=" + tipo;
+            return "tipo=" + tipo + "&data=" + data;
         default:
             return "";
             
@@ -145,14 +145,14 @@ function startGame () {
     alert(this.id); 
 }
 
-function enviar(tipo){
+function enviar(tipo,data){
     var conexion;
     if (window.XMLHttpRequest){
         conexion=new XMLHttpRequest();
     } else {
         conexion= new ActiveXObject("Microsoft.XMLHttp");
     }
-    var datos=datos_post(tipo);
+    var datos=datos_post(tipo,data);
     //alert(datos);
     conexion.open("POST", "/brain/php/conector.php",true);							// <form method=POST action=conector.php
     conexion.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -258,7 +258,7 @@ function generaPregunta(datos){
     //enviar(getPreg);
     html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"o</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>"
     preguntas[preguntasCargadas] = html;
-    console.log(preguntas);
+    //console.log(preguntas);
     preguntasCargadas++;
 }
 
@@ -266,7 +266,7 @@ function getCantPreguntas(){
     var totPregServ = enviar("totPregServ");
 }
 function getPreguntas(totPregServ){
-    var listaUsadas;
+    var listaUsadas = [];
     var totalPreguntas = 10;
     for (var i = 1; i <= totalPreguntas; i++) {
         //generar aleatorio 
@@ -274,12 +274,15 @@ function getPreguntas(totPregServ){
         do{
             num_rand = Math.floor(Math.random() * 10) + 1;
             console.log(num_rand);
-        }while(!jQuery.inArray(num_rand,listaUsadas));
+        }while(listaUsadas.indexOf(num_rand)!=-1);
+        listaUsadas.push(num_rand);
         //comprobar si ese aleatorio se ha usado antes
         
         //console.log(i);
         //en caso de no usarse, se genera la pregunta
-        enviar("getPreg");
+        enviar("getPreg",num_rand);
         //console.log(preguntas);
     }
+    //console.log(listaUsadas);
+    //console.log("aaa");
 }

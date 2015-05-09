@@ -8,4 +8,5 @@ document.ready=function(){
     var usuario = getCookie("usuario");
     
     $("#userLoged").html("Benvingut/da "+usuario);
+    $("aler").html( "<?php echo ( isset( $success ) ) ? '<p class=\"success\">'.$success.'</p>' : '<p class=\"failure\">'.$failure.'</p>'; ?>");
 };

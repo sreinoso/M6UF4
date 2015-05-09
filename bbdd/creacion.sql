@@ -32,3 +32,5 @@ INSERT INTO `PREGUNTA` (`id`, `enunciat`, `resposta1`, `resposta2`, `resposta3`,
 (8, '¿Qué pie puso primero Neil Amstrong sobre la Luna?', 'No puso ningún pie, puso primero la bandera', 'Los dos a la vez', 'Derecho', 'Izquierdo', '3'),
 (9, '¿Cómo se transmiten más rápidamente las ondas sonoras?', 'Por Tierra', 'Por Aire', 'Por Agua', 'Por Fuego', '2'),
 (10, '¿Qué parte del cuerpo tiene los huesos más pequeños?', 'Mano', 'Pie', 'Oído', 'Pierna', '2');
+ 
+ INSERT INTO `brain`.`JUGADOR` (`id`, `nickname`, `pwd`, `experiencia_total`, `partides_jugades`) VALUES (NULL, 'aaa', PASSWORD('aaa'), '0', '0'), (NULL, 'bbb', PASSWORD('bbb'), '0', '0');
