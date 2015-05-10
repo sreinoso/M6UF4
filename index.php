@@ -101,6 +101,7 @@ if(@$_SESSION['logged']!=true){
         <div id="panelJuego">
             <div id="pregunta">
             </div>
+            <div id="progressbar"></div>
             <div id="acciones">
                 <input type="button" id="envPreg" value="Enviar" name="envPeg">
             </div>

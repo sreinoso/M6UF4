@@ -111,17 +111,18 @@ $(function() {
 	$( "#registre" ).click(function() {					//Executa una funció per validar el registre
 		validaReg(useReg.value,passReg.value,mail.value,myDate.value);
 	});	
+
 });
 
 
 //##################################################
 //AJAX
 //##################################################
-    var preguntas = [];
-    var preguntasCargadas = 0;
-    var posicionPreguntaJugando = 0;
-    var respuestas = [];
- 
+var preguntas = [];
+var preguntasCargadas = 0;
+var posicionPreguntaJugando = 0;
+var respuestas = [];
+
 function datos_post(tipo,data) {
     switch(tipo){
         case "login":
@@ -136,7 +137,7 @@ function datos_post(tipo,data) {
             return "tipo=" + tipo + "&data=" + data;
         default:
             return "";
-            
+
     }
 
 }
@@ -149,10 +150,60 @@ function startGame () {
     //console.log(preguntas[posicionPreguntaJugando]);
     $("#pregunta").html(preguntas[posicionPreguntaJugando]);
     posicionPreguntaJugando++;
+    var progreso = 0;
+    var tiempo = setInterval(actualizarbar, 10);
+    function actualizarbar(){
+        $("#progressbar").progressbar({
+            value: ++progreso
+        });
+        if(progreso == 100){    
+            clearInterval(tiempo);  
+            nextPregunta();
+            //alert ("fin"); 
+            //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
+        } 
+    }
+
+    //$(function () {
+    //    $("#progressbar").progressbar({
+    //        value: progreso
+    //    });
+    //});
 }
 function nextPregunta(){
+    var progreso = 0;
+    var tiempo = setInterval(actualizarbar, 10);
+    function actualizarbar(){
+        $("#progressbar").progressbar({
+            value: ++progreso
+        });
+        if(progreso == 100){    
+            clearInterval(tiempo);  
+            nextPregunta();
+            //alert ("fin"); 
+            //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
+        } 
+    }
+
+    //$(function () {
+    //    $("#progressbar").progressbar({
+    //        value: progreso
+    //    });
+    //});
     $("#pregunta").html(preguntas[posicionPreguntaJugando]);
-    posicionPreguntaJugando++;
+    if(posicionPreguntaJugando==9){
+        fin();
+        clearInterval(tiempo); 
+    }else{
+        posicionPreguntaJugando++;
+    }
+}
+function fin () {
+    alert("FIN");
+    $("#jugar").prop("disabled",false);
+    preguntas = null;
+    posicionPreguntaJugando = 0;
+
 }
 
 function enviar(tipo,data){
@@ -187,7 +238,7 @@ function action (tipo,datos) {
     //alert(tipo);
     switch(tipo){
         case 'login':
-            var usuario= document.getElementById("user");
+            var usuario=document.getElementById("user");
             //alert (usuario);
             if(datos){
                 document.getElementById('msg').innerHTML = "Benvingut/da "+usuario.value;
@@ -221,7 +272,7 @@ function valida(){						//Funcio per validar un usuari i contrasenya en el "dial
 }		
 
 function logout(){
-     //alert("logout");
+    //alert("logout");
     enviar("logout");
 }
 
@@ -235,7 +286,7 @@ function setCookie(cname, cvalue, exdays) {
     var expires = "expires="+d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
 }
- 
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -248,7 +299,7 @@ function getCookie(cname) {
 }
 
 function getExpTot(usuario) {
-    
+
 }
 
 function generaPregunta(datos){ 
@@ -263,7 +314,7 @@ function generaPregunta(datos){
     var r4 = datos.r4;
     //de datos a id, enunciado, rx....
     //enviar(getPreg);
-    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"o</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>";
+    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>";
     preguntas[preguntasCargadas] = html;
     //console.log(html);
     //console.log(preguntas);
@@ -293,7 +344,7 @@ function getPreguntas(totPregServ){
         }while(listaUsadas.indexOf(num_rand)!=-1);
         listaUsadas.push(num_rand);
         //comprobar si ese aleatorio se ha usado antes
-        
+
         //console.log(i);
         //en caso de no usarse, se genera la pregunta
         enviar("getPreg",num_rand);
