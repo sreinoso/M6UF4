@@ -119,6 +119,8 @@ $(function() {
 //##################################################
     var preguntas = [];
     var preguntasCargadas = 0;
+    var posicionPreguntaJugando = 0;
+    var respuestas = [];
  
 function datos_post(tipo,data) {
     switch(tipo){
@@ -142,7 +144,15 @@ function datos_post(tipo,data) {
 
 
 function startGame () {
-    alert(this.id); 
+    //alert(this.id); 
+    $("#jugar").prop("disabled",true);
+    //console.log(preguntas[posicionPreguntaJugando]);
+    $("#pregunta").html(preguntas[posicionPreguntaJugando]);
+    posicionPreguntaJugando++;
+}
+function nextPregunta(){
+    $("#pregunta").html(preguntas[posicionPreguntaJugando]);
+    posicionPreguntaJugando++;
 }
 
 function enviar(tipo,data){
@@ -204,9 +214,6 @@ function action (tipo,datos) {
         case 'getPreg':
             generaPregunta(datos);
             break;
-            
-            
-
     }
 }
 function valida(){						//Funcio per validar un usuari i contrasenya en el "dialog" - Login
@@ -214,7 +221,7 @@ function valida(){						//Funcio per validar un usuari i contrasenya en el "dial
 }		
 
 function logout(){
-     alert("logout");
+     //alert("logout");
     enviar("logout");
 }
 
@@ -247,7 +254,7 @@ function getExpTot(usuario) {
 function generaPregunta(datos){ 
     var html;
 
-    console.log(datos);
+    //console.log(datos);
     var id = datos.id;
     var enunciado = datos.enunciado;
     var r1 = datos.r1;
@@ -256,15 +263,24 @@ function generaPregunta(datos){
     var r4 = datos.r4;
     //de datos a id, enunciado, rx....
     //enviar(getPreg);
-    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"o</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>"
+    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"o</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>";
     preguntas[preguntasCargadas] = html;
+    //console.log(html);
     //console.log(preguntas);
     preguntasCargadas++;
+    if(preguntasCargadas == 10){
+        activaJugar();
+    }
+}
+
+function activaJugar(){
+    $("#jugar").prop("disabled",false);
 }
 
 function getCantPreguntas(){
     var totPregServ = enviar("totPregServ");
 }
+
 function getPreguntas(totPregServ){
     var listaUsadas = [];
     var totalPreguntas = 10;
@@ -273,7 +289,7 @@ function getPreguntas(totPregServ){
         var num_rand;
         do{
             num_rand = Math.floor(Math.random() * 10) + 1;
-            console.log(num_rand);
+            //console.log(num_rand);
         }while(listaUsadas.indexOf(num_rand)!=-1);
         listaUsadas.push(num_rand);
         //comprobar si ese aleatorio se ha usado antes

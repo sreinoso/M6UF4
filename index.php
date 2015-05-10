@@ -99,23 +99,8 @@ if(@$_SESSION['logged']!=true){
             <input type="button" id="logout" name="logout" value="LOGOUT"/>
         </div>
         <div id="panelJuego">
-            <div class="pregunta">
-                <!--<div class="enunciado">
-                    Como te llamas?
-                </div>
-                <div class="respuesta">
-                    <input type="radio" name="resp" value="pepe">Pepe</input>
-                </div>
-                <div class="respuesta">
-                    <input type="radio" name="resp" value="pedro">Pedro</input>
-                </div>
-                <div class="respuesta">
-                    <input type="radio" name="resp" value="juan">Juan</input>
-                </div>
-                <div class="respuesta">
-                    <input type="radio" name="resp" value="aaa">aaa</input>
-                </div>
-            </div>-->
+            <div id="pregunta">
+            </div>
             <div id="acciones">
                 <input type="button" id="envPreg" value="Enviar" name="envPeg">
             </div>

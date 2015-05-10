@@ -35,15 +35,8 @@ if(@$_SESSION['logged']!=true){
 <input type="button" id="logout" name="logout" value="LOGOUT"/>
 <div id="aler">
 </div>
-
- 
-
- 
- 
- 
- 
- 
- 
+<div id="contenedorPreguntas">
+</div>
  
 </body>
 </html>
