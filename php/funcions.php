@@ -20,7 +20,7 @@ function getCantPreg(){
 }
 function getPregunta($id){
     $con = conectar_bdd();
-    $query = 'SELECT id,enunciat,resposta1,resposta2,resposta3,resposta4 FROM PREGUNTA where id='.$id;
+    $query = 'SELECT id,enunciat,resposta1,resposta2,resposta3,resposta4,respostacorrecta FROM PREGUNTA where id='.$id;
     $retval = mysql_query($query,$con);
     return mysql_fetch_row($retval);
 }

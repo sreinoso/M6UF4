@@ -179,6 +179,7 @@ function nextPregunta(){
         });
         if(progreso == 100){    
             clearInterval(tiempo);  
+            //respuestas[x] = selected o null
             nextPregunta();
             //alert ("fin"); 
             //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
@@ -198,9 +199,10 @@ function nextPregunta(){
         posicionPreguntaJugando++;
     }
 }
-function fin () {
+function fin() {
     alert("FIN");
     $("#jugar").prop("disabled",false);
+    comprueba(preguntas,respuestas);
     preguntas = null;
     posicionPreguntaJugando = 0;
 
@@ -314,7 +316,7 @@ function generaPregunta(datos){
     var r4 = datos.r4;
     //de datos a id, enunciado, rx....
     //enviar(getPreg);
-    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r2+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' name='resp'>"+r4+"</input> </div> </div>";
+    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' id='r0' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' id='r1' name='resp'>"+r2+"</input> </div> <div class='respuesta'> <input type='radio' id='r2' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' id='r3' name='resp'>"+r4+"</input> </div> </div>";
     preguntas[preguntasCargadas] = html;
     //console.log(html);
     //console.log(preguntas);

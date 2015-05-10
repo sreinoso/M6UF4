@@ -37,6 +37,7 @@ if(isset($_POST['tipo'])){
         $r2=$datos[3];
         $r3=$datos[4];
         $r4=$datos[5];
+        $rc=$datos[6];
         //var_dump($datos);
         //$retorno = array("tipo"=>$_POST['tipo'], "datos"=>"");
         $tipo = $_POST['tipo'];
