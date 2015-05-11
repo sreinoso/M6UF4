@@ -122,6 +122,8 @@ var preguntas = [];
 var preguntasCargadas = 0;
 var posicionPreguntaJugando = 0;
 var respuestas = [];
+var rc = [];
+var tiempo;
 
 function datos_post(tipo,data) {
     switch(tipo){
@@ -146,18 +148,24 @@ function datos_post(tipo,data) {
 
 function startGame () {
     //alert(this.id); 
+    //alert($("input[type=radio]:checked"));//.on("click", function() { $("#msg").text(" checked"); })
+
     $("#jugar").prop("disabled",true);
+    $("#envPreg").prop("disabled",false);
     //console.log(preguntas[posicionPreguntaJugando]);
     $("#pregunta").html(preguntas[posicionPreguntaJugando]);
-    posicionPreguntaJugando++;
     var progreso = 0;
-    var tiempo = setInterval(actualizarbar, 10);
+    tiempo = setInterval(actualizarbar, 100);
     function actualizarbar(){
         $("#progressbar").progressbar({
             value: ++progreso
         });
         if(progreso == 100){    
+            $("#progressbar").progressbar(0);
             clearInterval(tiempo);  
+            $( "input" ).on( "click", function() {
+                respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
+            });
             nextPregunta();
             //alert ("fin"); 
             //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
@@ -171,15 +179,24 @@ function startGame () {
     //});
 }
 function nextPregunta(){
+    //console.log(this);
+    if(this.id == "envPreg"){
+        //$("#progressbar").progressbar(0);
+        //alert(this.id);
+        clearInterval(tiempo);  
+    }
+    tiempo = setInterval(actualizarbar, 100);
     var progreso = 0;
-    var tiempo = setInterval(actualizarbar, 10);
+
+    //$("#envPreg").click(function() { var radioID = $("input[type='radio']:checked").attr("id"); if (radioID) { alert(radioID); } });
     function actualizarbar(){
         $("#progressbar").progressbar({
             value: ++progreso
         });
         if(progreso == 100){    
-            clearInterval(tiempo);  
             //respuestas[x] = selected o null
+            //$("#progressbar").progressbar('value', 0);
+            clearInterval(tiempo);  
             nextPregunta();
             //alert ("fin"); 
             //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
@@ -192,17 +209,28 @@ function nextPregunta(){
     //    });
     //});
     $("#pregunta").html(preguntas[posicionPreguntaJugando]);
-    if(posicionPreguntaJugando==9){
+    $( "input" ).on( "click", function() {
+        respuestas[posicionPreguntaJugando] = ($( "input[type=radio]:checked" ).attr('id') + ":" + progreso).substring(1);
+    });
+    if(posicionPreguntaJugando==10){
         fin();
         clearInterval(tiempo); 
     }else{
         posicionPreguntaJugando++;
     }
 }
+
 function fin() {
-    alert("FIN");
+    for(var i = 1 ; i<11;i++){
+    console.log(respuestas);
+        respuestas[i] = respuestas[i].split(":");
+    }
+    console.log(rc);
+    //alert("FIN");
     $("#jugar").prop("disabled",false);
-    comprueba(preguntas,respuestas);
+    $("#envPreg").prop("disabled",true);
+    clearInterval(tiempo);  
+    //ºcomprueba(preguntas,respuestas);
     preguntas = null;
     posicionPreguntaJugando = 0;
 
@@ -314,10 +342,13 @@ function generaPregunta(datos){
     var r2 = datos.r2;
     var r3 = datos.r3;
     var r4 = datos.r4;
+    var correcta = datos.rc;
     //de datos a id, enunciado, rx....
     //enviar(getPreg);
-    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' id='r0' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' id='r1' name='resp'>"+r2+"</input> </div> <div class='respuesta'> <input type='radio' id='r2' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' id='r3' name='resp'>"+r4+"</input> </div> </div>";
+    html = "<div class='enunciado' id='" + id +"'> " + enunciado + " </div> <div class='respuesta'> <input type='radio' id='r0' name='resp'>"+r1+"</input> </div> <div class='respuesta'> <input type='radio' id='r1' name='resp'>"+r2+"</input> </div> <div class='respuesta'> <input type='radio' id='r2' name='resp'>"+r3+"</input> </div> <div class='respuesta'> <input type='radio' id='r3' name='resp'>"+r4+"</input></div>";
     preguntas[preguntasCargadas] = html;
+    rc[preguntasCargadas] = correcta;
+    //console.log(rc[preguntasCargadas]);
     //console.log(html);
     //console.log(preguntas);
     preguntasCargadas++;

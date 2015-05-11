@@ -45,7 +45,7 @@ if(isset($_POST['tipo'])){
         //$retorno = array("tipo"=>$tipo, "datos"=>$id.$enunciado.$r1.$r2.$r3.$r4);
         //$retorno = array("tipo"=>$_POST['tipo'], "datos"=>array("id"=>$id,"enunciado"=>$enunciado,"r1"=>$r1,"r2"=>$r2,"r3"=>$r3,"r4"=>$r4));
         //$retorno = array("tipo"=>$_POST['tipo'], "datos"=>"<div class='enunciado' id='$datos[0]'> $datos[1] </div> <div class='respuesta'> <input type='radio' name='resp'>$datos[2]</input> </div> <div class='respuesta'> <input type='radio' name='resp'>$datos[3]</input> </div> <div class='respuesta'> <input type='radio' name='resp'>$datos[4]</input> </div> <div class='respuesta'> <input type='radio' name='resp'>$datos[5]</input> </div> </div>");
-        $retorno = array("tipo"=>$tipo, "datos"=>array("id"=>$id,"enunciado"=>$enunciado,"r1"=>$r1,"r2"=>$r2,"r3"=>$r3,"r4"=>$r4));
+        $retorno = array("tipo"=>$tipo, "datos"=>array("id"=>$id,"enunciado"=>$enunciado,"r1"=>$r1,"r2"=>$r2,"r3"=>$r3,"r4"=>$r4,"rc"=>$rc));
         //$retorno = array(
         //    "tipo"=>$_POST['tipo'],
         //    "datos"=>array("num1"=>5)

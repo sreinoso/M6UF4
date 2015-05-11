@@ -10,9 +10,12 @@ document.ready=function(){
     $("#jugar").prop("disabled",true);
     
     $("#userLoged").html("Benvingut/da "+usuario);
-    $("#pregunta").on("click",function(){
-        $("#msg").html($("input:checked").val()+" checked");
-    });
+    //$("radio").click(function(){
+
+    //    alert("aaa");
+    //    //$("#msg").html($(this)+" checked");
+    //    //$("#msg").html($("input:checked").val()+" checked");
+    //});
     //respuestas[posicionPreguntaJugando] = $("input:checked").val()+"checked");
     //$("aler").html( "<?php echo ( isset( $success ) ) ? '<p class=\"success\">'.$success.'</p>' : '<p class=\"failure\">'.$failure.'</p>'; ?>");
 };
