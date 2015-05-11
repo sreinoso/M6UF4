@@ -8,6 +8,8 @@ document.ready=function(){
     
     var usuario = getCookie("usuario");
     $("#jugar").prop("disabled",true);
+    $( "#envPreg" ).css( "display","none" );
+    $().prop("disabled",true);
     
     $("#userLoged").html("Benvingut/da "+usuario);
     //$("radio").click(function(){

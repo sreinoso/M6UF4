@@ -124,6 +124,7 @@ var posicionPreguntaJugando = 0;
 var respuestas = [];
 var rc = [];
 var tiempo;
+    var progreso = 0;
 
 function datos_post(tipo,data) {
     switch(tipo){
@@ -147,14 +148,14 @@ function datos_post(tipo,data) {
 
 
 function startGame () {
-    //alert(this.id); 
-    //alert($("input[type=radio]:checked"));//.on("click", function() { $("#msg").text(" checked"); })
+    $( "input" ).on( "click", function() {
+        respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
+    });
 
     $("#jugar").prop("disabled",true);
-    $("#envPreg").prop("disabled",false);
+    $("#envPreg").css("display","block");
     //console.log(preguntas[posicionPreguntaJugando]);
     $("#pregunta").html(preguntas[posicionPreguntaJugando]);
-    var progreso = 0;
     tiempo = setInterval(actualizarbar, 100);
     function actualizarbar(){
         $("#progressbar").progressbar({
@@ -162,13 +163,12 @@ function startGame () {
         });
         if(progreso == 100){    
             $("#progressbar").progressbar(0);
-            clearInterval(tiempo);  
             $( "input" ).on( "click", function() {
                 respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
             });
+            clearInterval(tiempo);  
+            posicionPreguntaJugando++;
             nextPregunta();
-            //alert ("fin"); 
-            //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
         } 
     }
 
@@ -179,27 +179,30 @@ function startGame () {
     //});
 }
 function nextPregunta(){
+    if(posicionPreguntaJugando==0){
+            posicionPreguntaJugando++;
+    }
     //console.log(this);
+    var paux=progreso;
+    progreso = 0;
     if(this.id == "envPreg"){
-        //$("#progressbar").progressbar(0);
-        //alert(this.id);
+                if($( "input[type=radio]:checked" ).attr('id')!= jQuery.type( undefined )){
+                    respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
+                }else{
+                    respuestas[posicionPreguntaJugando] =  "r9:" + paux;
+                }
+
         clearInterval(tiempo);  
     }
     tiempo = setInterval(actualizarbar, 100);
-    var progreso = 0;
 
-    //$("#envPreg").click(function() { var radioID = $("input[type='radio']:checked").attr("id"); if (radioID) { alert(radioID); } });
     function actualizarbar(){
         $("#progressbar").progressbar({
             value: ++progreso
         });
         if(progreso == 100){    
-            //respuestas[x] = selected o null
-            //$("#progressbar").progressbar('value', 0);
             clearInterval(tiempo);  
-            nextPregunta();
-            //alert ("fin"); 
-            //// hay que pasar a la siguiente pregunta y que salga contestada como incorrecta
+            nextPregunta(progreso);
         } 
     }
 
@@ -210,7 +213,7 @@ function nextPregunta(){
     //});
     $("#pregunta").html(preguntas[posicionPreguntaJugando]);
     $( "input" ).on( "click", function() {
-        respuestas[posicionPreguntaJugando] = ($( "input[type=radio]:checked" ).attr('id') + ":" + progreso).substring(1);
+        respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
     });
     if(posicionPreguntaJugando==10){
         fin();
@@ -222,17 +225,49 @@ function nextPregunta(){
 
 function fin() {
     for(var i = 1 ; i<11;i++){
-    console.log(respuestas);
         respuestas[i] = respuestas[i].split(":");
+        respuestas[i][0] = respuestas[i][0].substring(1);
     }
-    console.log(rc);
+    
+    //console.log(rc);
     //alert("FIN");
     $("#jugar").prop("disabled",false);
     $("#envPreg").prop("disabled",true);
     clearInterval(tiempo);  
-    //ºcomprueba(preguntas,respuestas);
+    comprueba(rc,respuestas);
     preguntas = null;
     posicionPreguntaJugando = 0;
+
+}
+
+function comprueba(rc,respuestas){
+//Experiència=(100 – Temps que hagi empleat en contestar en total) + (Número d’encerts * 10) –( Número d’errors * 20)  
+var ttot = 0;
+var ok = 0;
+var nok = 0;
+
+//console.log(rc);
+//console.log(respuestas);
+for(var i = 1; i<11; i++){
+    console.log(respuestas[i][1]);
+    ttot+=parseInt(respuestas[i][1]);
+        console.log("rc["+(i-1)+"]: "+rc[i-1]);
+        console.log("respuesta["+i+"]: "+respuestas[i][0]);
+    if(rc[i-1] == respuestas[i][0]){
+        ok++;
+    }else{
+        nok++;
+    }
+}
+
+console.log(ok);
+console.log(nok);
+console.log(ttot);
+
+ttot/=10;
+
+var xp = (100 - ttot) + (ok*10) - (nok * 20);
+console.log(xp);
 
 }
 
