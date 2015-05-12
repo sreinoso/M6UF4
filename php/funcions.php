@@ -45,6 +45,19 @@ function logout(){
     $_SESSION['logged']=false;
 }
 
+function actualizaXP($xp,$usuario){
+    $con = conectar_bdd();
+    $query = 'SELECT experiencia_total,partides_jugades FROM JUGADOR where nickname="'.$usuario.'"';
+    $retval = mysql_query($query,$con);
+    $result = mysql_fetch_row($retval);
+    $xp_act = $result[0];
+    $played = $result[1];
+    $played++;
+    $xp_act+=$xp;
+    $query = 'UPDATE `JUGADOR` SET `experiencia_total`='.$xp_act.' ,`partides_jugades`='.$played.'  WHERE `nickname` ="'.$usuario.'"';
+    $retval = mysql_query($query,$con);
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////

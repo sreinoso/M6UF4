@@ -138,6 +138,9 @@ function datos_post(tipo,data) {
         case "totPregServ":
         case "getPreg":
             return "tipo=" + tipo + "&data=" + data;
+            break;
+        case "envRes":
+            return "tipo=" + tipo + "&data=" + data + "&user=" + getCookie("usuario");
         default:
             return "";
 
@@ -186,11 +189,19 @@ function nextPregunta(){
     var paux=progreso;
     progreso = 0;
     if(this.id == "envPreg"){
-                if($( "input[type=radio]:checked" ).attr('id')!= jQuery.type( undefined )){
-                    respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
-                }else{
-                    respuestas[posicionPreguntaJugando] =  "r9:" + paux;
-                }
+
+    var elementos = document.getElementsByName("resp");
+    var seleccionado = false;
+    for(var i=0; i<elementos.length; i++) {
+        seleccionado = seleccionado || elementos[i].checked;
+    //alert(" Elemento: " + elementos[i].value + "\n Seleccionado: " + elementos[i].checked);
+    }
+    //alert(seleccionado);
+        if(seleccionado){
+            respuestas[posicionPreguntaJugando] = $( "input[type=radio]:checked" ).attr('id') + ":" + progreso;
+        }else{
+            respuestas[posicionPreguntaJugando] =  "r9:" + paux;
+        }
 
         clearInterval(tiempo);  
     }
@@ -228,7 +239,7 @@ function fin() {
         respuestas[i] = respuestas[i].split(":");
         respuestas[i][0] = respuestas[i][0].substring(1);
     }
-    
+
     //console.log(rc);
     //alert("FIN");
     $("#jugar").prop("disabled",false);
@@ -241,33 +252,34 @@ function fin() {
 }
 
 function comprueba(rc,respuestas){
-//Experiència=(100 – Temps que hagi empleat en contestar en total) + (Número d’encerts * 10) –( Número d’errors * 20)  
-var ttot = 0;
-var ok = 0;
-var nok = 0;
+    //Experiència=(100 – Temps que hagi empleat en contestar en total) + (Número d’encerts * 10) –( Número d’errors * 20)  
+    var ttot = 0;
+    var ok = 0;
+    var nok = 0;
 
-//console.log(rc);
-//console.log(respuestas);
-for(var i = 1; i<11; i++){
-    console.log(respuestas[i][1]);
-    ttot+=parseInt(respuestas[i][1]);
+    //console.log(rc);
+    //console.log(respuestas);
+    for(var i = 1; i<11; i++){
+        console.log(respuestas[i][1]);
+        ttot+=parseInt(respuestas[i][1]);
         console.log("rc["+(i-1)+"]: "+rc[i-1]);
         console.log("respuesta["+i+"]: "+respuestas[i][0]);
-    if(rc[i-1] == respuestas[i][0]){
-        ok++;
-    }else{
-        nok++;
+        if(rc[i-1] == respuestas[i][0]){
+            ok++;
+        }else{
+            nok++;
+        }
     }
-}
 
-console.log(ok);
-console.log(nok);
-console.log(ttot);
+    //console.log(ok);
+    //console.log(nok);
+    //console.log(ttot);
 
-ttot/=10;
+    ttot/=10;
 
-var xp = (100 - ttot) + (ok*10) - (nok * 20);
-console.log(xp);
+    var xp = (100 - ttot) + (ok*10) - (nok * 20);
+    //console.log(xp);
+    enviar("envRes",xp);
 
 }
 
