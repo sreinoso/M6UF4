@@ -118,6 +118,8 @@ if(@$_SESSION['logged']!=true){
             <div id="acciones">
                 <input type="button" id="envPreg" value="Enviar" name="envPeg">
             </div>
+            <div id="ranking">
+            </div>
         </div>
     </body>
 </html>

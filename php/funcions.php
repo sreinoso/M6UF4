@@ -71,6 +71,40 @@ function mostra_product(){
         exit;
     }
 }
+function consultar($data = null){
+    //echo($data);
+    $con = conectar_bdd();
+    switch($data){
+        case "noma":
+            $query = 'SELECT nickname,experiencia_total FROM JUGADOR order by nickname asc';
+            break;
+        case "nomd":
+            $query = 'SELECT nickname,experiencia_total FROM JUGADOR order by nickname desc';
+            break;
+        case "punta":
+            $query = 'SELECT nickname,experiencia_total FROM JUGADOR order by experiencia_total asc';
+            break;
+        case "puntd":
+            $query = 'SELECT nickname,experiencia_total FROM JUGADOR order by experiencia_total desc';
+            break;
+        default:
+            $query = 'SELECT nickname,experiencia_total FROM JUGADOR order by nickname asc';
+            break;
+    }
+    $result = mysql_query($query,$con);	
+    $i = 0;
+    while ($fila = mysql_fetch_array($result,MYSQL_ASSOC)) {
+        $ret[$i]=$fila;
+        $i++;
+    }
+    //var_dump($ret);
+    return $ret;
+}
+function registre($usr,$pass){
+    $con = conectar_bdd();
+    $query = 'INSERT INTO `JUGADOR`(`id`,`nickname`, `pwd`) VALUES (null,"'.$usr.'",password("'.$pass.'"))';
+    mysql_query($query,$con);	
+}
 
 
 ?>

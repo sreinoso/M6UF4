@@ -82,7 +82,8 @@ $(function() {
 		}	
 		/*Cuando todos los campos esten OK entonces ::*/
 		if(valid == 5){	
-			alert('Todos los campos son correctos para el registro ');
+			alert('Usuario registrado');
+            registre();
 		}	
 	}	
 	
@@ -137,13 +138,17 @@ function datos_post(tipo,data) {
         case "logout":
         case "totPregServ":
         case "getPreg":
-            return "tipo=" + tipo + "&data=" + data;
+        case "consultar":
+            return "tipo="+tipo+"&data="+data;
             break;
+        case "registre":
+        var usr = document.getElementById('useReg').value;
+        var pass = document.getElementById('passReg').value;
+            return "tipo="+tipo+"&usr="+usr+"&pass="+pass;
         case "envRes":
             return "tipo=" + tipo + "&data=" + data + "&user=" + getCookie("usuario");
         default:
             return "";
-
     }
 
 }
@@ -260,10 +265,10 @@ function comprueba(rc,respuestas){
     //console.log(rc);
     //console.log(respuestas);
     for(var i = 1; i<11; i++){
-        console.log(respuestas[i][1]);
+        //console.log(respuestas[i][1]);
         ttot+=parseInt(respuestas[i][1]);
-        console.log("rc["+(i-1)+"]: "+rc[i-1]);
-        console.log("respuesta["+i+"]: "+respuestas[i][0]);
+        //console.log("rc["+(i-1)+"]: "+rc[i-1]);
+        //console.log("respuesta["+i+"]: "+respuestas[i][0]);
         if(rc[i-1] == respuestas[i][0]){
             ok++;
         }else{
@@ -271,9 +276,6 @@ function comprueba(rc,respuestas){
         }
     }
 
-    //console.log(ok);
-    //console.log(nok);
-    //console.log(ttot);
 
     ttot/=10;
 
@@ -291,7 +293,6 @@ function enviar(tipo,data){
         conexion= new ActiveXObject("Microsoft.XMLHttp");
     }
     var datos=datos_post(tipo,data);
-    //alert(datos);
     conexion.open("POST", "/brain/php/conector.php",true);							// <form method=POST action=conector.php
     conexion.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
     conexion.send(datos);													//submit
@@ -299,7 +300,6 @@ function enviar(tipo,data){
 
     conexion.onreadystatechange=function(){ 
         if (conexion.readyState==4 && conexion.status==200) { 
-            //console.log(conexion.responseText);
             var aux=JSON.parse(conexion.responseText); 
             tipo = aux.tipo;
             resul = aux.datos;
@@ -342,9 +342,27 @@ function action (tipo,datos) {
         case 'getPreg':
             generaPregunta(datos);
             break;
+        case 'consultar':
+            var html = "<table><tr> <th>Posicio</th> <th>Nickname</th> <th>Experiencia Total</th> </tr>";
+            for(var i = 0; i<datos.length;i++){
+               console.log(datos[i].nickname); 
+               html = html+"<tr> <td>"+(i+1)+"</td> <td>"+datos[i].nickname+"</td> <td>"+datos[i].experiencia_total+"</td> <tr> </tr>";
+            }
+            html = html+"</table>";
+            html = html+"<input type='button' id='noma' value='Nom Ascendent'></input>";
+            html = html+"<input type='button' id='nomd' value='Nom Descendent'></input>";
+            html = html+"<input type='button' id='punta' value='Punts Ascendents'></input>";
+            html = html+"<input type='button' id='puntd' value='Punts Descendents'></input>";
+             
+            document.getElementById('ranking').innerHTML=html;
+            document.getElementById("noma").addEventListener("click",consultar);
+            document.getElementById("nomd").addEventListener("click",consultar);
+            document.getElementById("punta").addEventListener("click",consultar);
+            document.getElementById("puntd").addEventListener("click",consultar);
+            break;
     }
 }
-function valida(){						//Funcio per validar un usuari i contrasenya en el "dialog" - Login
+function valida(){
     enviar("login");
 }		
 
@@ -354,7 +372,9 @@ function logout(){
 }
 
 function registre () {
-    var container = document.getElementById(this.parent);
+    //var container = document.getElementById(this.parent);
+    //alert( container);
+    enviar("registre");
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -432,4 +452,15 @@ function getPreguntas(totPregServ){
     }
     //console.log(listaUsadas);
     //console.log("aaa");
+}
+
+function consultar(tipo){
+    //switch(tipo){
+    //    case "noma":
+    //    case "nomd":
+    //    case "punta":
+    //    case "puntd":
+    //}
+    console.log(this.id);
+    enviar("consultar",this.id);
 }

@@ -4,6 +4,7 @@ document.ready=function(){
 
     document.getElementById("logout").addEventListener("click",logout);
     document.getElementById("jugar").addEventListener("click",startGame);
+    document.getElementById("consultar").addEventListener("click",consultar);
     document.getElementById("envPreg").addEventListener("click",nextPregunta);
     
     var usuario = getCookie("usuario");

@@ -46,7 +46,15 @@ if(isset($_POST['tipo'])){
         $usuario = $_POST['user'];
         actualizaXP($xp,$usuario);
         $retorno = array("tipo"=>$tipo, "datos"=>"");
-
+        break;
+    case 'consultar':
+        //var_dump($data);
+        $res = consultar($data);
+        $retorno = array("tipo"=>$tipo, "datos"=>$res);
+        break;
+    case 'registre':
+        registre($_POST['usr'],$_POST['pass']);
+        $retorno = array("tipo"=>$tipo, "datos"=>"");
         break;
     }
     //echo ($retorno);
@@ -57,7 +65,9 @@ if(isset($_POST['tipo'])){
     //json_encode($retorno);
 }
 //$ret_fin = json_encode($retorno);
+//var_dump($tipo);
 $ret_fin = json_encode($retorno,JSON_UNESCAPED_UNICODE);
+//var_dump($ret_fin);
 //echo json_encode($retorno,JSON_UNESCAPED_UNICODE);
 echo $ret_fin;
 ?>
